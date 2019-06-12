@@ -1,43 +1,55 @@
-var formidable = require('formidable')
 var Controller = require('./base/Controller')
 var Product = require('../models/Product')
 
-module.exports = new class ProductsController extends Controller{
+module.exports = new class ProductsController extends Controller {
     index(req, res, next) {
         Product.find((err, products) => {
-            if(err){
+            if (err) {
                 res.send({
-                    'success' : false,
-                    'message' : 'An error was ocurred'
+                    'success': false,
+                    'message': 'An error was ocurred'
                 })
             }
             res.send({
-                'success' : true,
-                'data' : {
-                    'products' : products
+                'success': true,
+                'data': {
+                    'products': products
                 }
             })
-          })
+        })
     }
 
     save(req, res, next) {
-        var form = new formidable.IncomingForm();
+        var body = req.body
+        let files = req.files
+
+        /*
+        req.files.forEach((file) => {
+            console.log(file.originalname)
+        }) 
+        */
+
+        res.send({
+            'success': true,
+            'data': {
+            }
+        })
+        /* var form = new formidable.IncomingForm();
 
         form.parse(req, (err, fields = [], files = []) => {
-            if(err) throw err
+            if (err) throw err
 
             let originals = [];
-            for(let file in files){
+            for (let file in files) {
                 let media = {
-                    'name' : files[file].name,
-                    'extension' : files[file].name.split('.')[files[file].name.split('.').length - 1],
-                    'type' : files[file].type,
-
+                    'name': files[file].name,
+                    'extension': files[file].name.split('.')[files[file].name.split('.').length - 1],
+                    'type': files[file].type,
                 }
                 originals.push(media)
             }
 
-            let product = new Product ({
+            let product = new Product({
                 name: fields.name,
                 description: fields.description,
                 medias: {
@@ -45,16 +57,16 @@ module.exports = new class ProductsController extends Controller{
                 }
             });
 
-            product.save((err, product)=> {
-                if(err) throw err
+            product.save((err, product) => {
+                if (err) throw err
                 res.send({
-                    'success' : true,
-                    'data' : {
-                        'product' : product
+                    'success': true,
+                    'data': {
+                        'product': product
                     }
                 })
             })
-        })
+        }) */
 
     }
 }
